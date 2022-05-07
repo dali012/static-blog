@@ -2,6 +2,16 @@
   "name": "static-blog",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "dali012",
+    "email": "dali.jerbi97@gmail.com",
+    "url": "https://www.github.com/dali012/static-blog"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
