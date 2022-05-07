@@ -6,7 +6,7 @@ interface ColorModeProviderProps {
 }
 
 const initialContext = {
-  mode: 'light' as PaletteMode,
+  mode: 'dark' as PaletteMode,
   toggleColorMode: () => {},
 };
 
