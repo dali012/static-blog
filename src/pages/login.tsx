@@ -1,4 +1,5 @@
 import { Copyright } from '@/components';
+import { auth } from '@/lib/firebaseAppClient';
 import { LockOutlined } from '@mui/icons-material';
 import {
   Avatar,
@@ -13,6 +14,12 @@ import {
   Typography,
 } from '@mui/material';
 import { NextPage } from 'next';
+import Router from 'next/router';
+import {
+  useSignInWithFacebook,
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from 'react-firebase-hooks/auth';
 import {
   FacebookLoginButton,
   GithubLoginButton,
@@ -38,6 +45,22 @@ const styleLoginButtons = {
 };
 
 const Login: NextPage = () => {
+  const [signInWithGithub, userGithub, loadingGithub, errorGithub] =
+    useSignInWithGithub(auth);
+  const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
+    useSignInWithGoogle(auth);
+  const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
+    useSignInWithFacebook(auth);
+
+  console.log('Github User : ', userGithub);
+  console.log('Error Github : ', errorGithub);
+
+  console.log('Google User : ', userGoogle);
+  console.log('Error Google : ', errorGoogle);
+
+  console.log('Facebook User : ', userFacebook);
+  console.log('Error Facebook : ', errorFacebook);
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
       <Grid
@@ -103,9 +126,33 @@ const Login: NextPage = () => {
             >
               Sign In
             </Button>
-            <GoogleLoginButton style={styleLoginButtons} />
-            <FacebookLoginButton style={styleLoginButtons} />
-            <GithubLoginButton style={styleLoginButtons} />
+            <GoogleLoginButton
+              style={styleLoginButtons}
+              text="Continue with Google"
+              onClick={async () =>
+                await signInWithGoogle().then(() =>
+                  Router.push('/').catch((error) => console.log(error))
+                )
+              }
+            />
+            <FacebookLoginButton
+              style={styleLoginButtons}
+              text="Continue with Facebook"
+              onClick={async () =>
+                await signInWithFacebook().then(() =>
+                  Router.push('/').catch((error) => console.log(error))
+                )
+              }
+            />
+            <GithubLoginButton
+              style={styleLoginButtons}
+              text="Continue with Github"
+              onClick={async () =>
+                await signInWithGithub()
+                  .then(() => Router.push('/'))
+                  .catch((error) => console.log(error))
+              }
+            />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
