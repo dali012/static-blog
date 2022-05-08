@@ -1,11 +1,13 @@
 import { Appbar } from '@/components';
+import { auth } from '@/lib/firebaseAppClient';
 import { ColorModeProvider } from '@/providers/ColorMode';
 import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import Login from './login';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const user: boolean = false;
+  const [user, loading, error] = useAuthState(auth);
   return (
     <ColorModeProvider>
       <CssBaseline />
@@ -17,7 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       ) : (
         <Login />
       )}
-      <Component {...pageProps} />
     </ColorModeProvider>
   );
 }
