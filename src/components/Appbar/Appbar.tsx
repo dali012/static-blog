@@ -1,3 +1,4 @@
+import { auth } from '@/lib/firebaseAppClient';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
@@ -13,6 +14,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { signOut } from 'firebase/auth';
 import { FC, MouseEvent, useState } from 'react';
 import ThemeToggler from '../ThemeToggler/ThemeToggler';
 
@@ -37,6 +39,10 @@ const Appbar: FC = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleSignOut = async () => {
+    await signOut(auth);
   };
 
   return (
@@ -151,7 +157,12 @@ const Appbar: FC = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={
+                    setting === 'Logout' ? handleSignOut : handleCloseUserMenu
+                  }
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
